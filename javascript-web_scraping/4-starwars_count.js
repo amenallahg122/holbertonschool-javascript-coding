@@ -7,10 +7,10 @@ req.get(reqUrl, (err, res, body) => {
     console.error(err);
   } else {
     const movies = JSON.parse(body);
-    const wedgeantilles = 'https://swapi-api.hbtn.io/api/people/18/';
+    const WedgeAntilles = 'https://swapi-api.hbtn.io/api/people/18/';
     const chars = movies.results[0].characters;
-    if (chars.includes(wedgeantilles)) {
-      req.get(wedgeantilles, (erro, resp, Body) => {
+    if (chars.includes(WedgeAntilles)) {
+      req.get(WedgeAntilles, (erro, resp, Body) => {
         if (erro) {
           console.error(erro);
         } else {

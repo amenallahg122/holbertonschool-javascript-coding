@@ -1,23 +1,28 @@
 #!/usr/bin/node
 
 const request = require('request');
-const args = process.argv;
-const userCountDict = {};
 
-request(args[2], (error, response, body) => {
+const apiUrl = process.argv[2];
+
+request(apiUrl, (error, response, body) => {
   if (error) {
-    console.log(error);
-  } else {
-    const data = JSON.parse(body);
-    for (let i = 0; i < data.length; i++) {
-      const currentUser = data[i].userId;
-      if (!userCountDict[currentUser] && data[i].completed === true) {
-        userCountDict[currentUser] = 0;
-      }
-      if (data[i].completed === true) {
-        userCountDict[currentUser]++;
+    console.error('Error fetching API:', error);
+    return;
+  }
+
+  const todos = JSON.parse(body);
+
+  const completedTasksByUser = {};
+
+  todos.forEach(todo => {
+    if (todo.completed) {
+      if (completedTasksByUser[todo.userId]) {
+        completedTasksByUser[todo.userId]++;
+      } else {
+        completedTasksByUser[todo.userId] = 1;
       }
     }
-  }
-  console.log(userCountDict);
+  });
+
+  console.log(completedTasksByUser);
 });
